@@ -36,4 +36,14 @@ router.post('/crossChainMessenger', async (ctx, next) => {
   }
 })
 
+router.get('/messageStatus', async (ctx, next) => {
+
+  try {
+    let res = sdk.MessageStatus;
+    ctx.body = res;
+  } catch (error) {
+    ctx.body = error;
+  }
+})
+
 module.exports = router
