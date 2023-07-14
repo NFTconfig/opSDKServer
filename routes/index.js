@@ -1,10 +1,12 @@
 const router = require('koa-router')()
 const sdk = require("@eth-optimism/sdk");
 const ethers = require("ethers")
+require('dotenv').config();
 const l2Provider = new ethers.providers.JsonRpcProvider("https://opbnb-testnet-rpc.bnbchain.org")
 const l2ProviderCombo = new ethers.providers.JsonRpcProvider("https://test-rpc.combonetwork.io")
 const l1Provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.publicnode.com")
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY)
+
 const l1Signer = wallet.connect(l1Provider);
 
 let crossChainMessenger = new sdk.CrossChainMessenger({
