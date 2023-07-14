@@ -46,6 +46,7 @@ let crossChainMessengerCombo = new sdk.CrossChainMessenger({
 
 }
 });
+
 router.post('/crossChainMessenger', async (ctx, next) => {
   let body = ctx.request.body;
   let method = body.method;
@@ -73,10 +74,11 @@ router.post('/combo/crossChainMessenger', async (ctx, next) => {
   let method = body.method;
   let params = body.params;
   try {
+
     let res = await crossChainMessengerCombo[method](...params);
     ctx.body = res;
   } catch (error) {
-    ctx.body = error;
+    ctx.body = String(error)
   }
 })
 
