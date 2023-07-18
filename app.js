@@ -6,6 +6,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
+const layerzerolabs = require('./routes/layerzerolabs')
 
 // error handler
 onerror(app)
@@ -25,6 +26,7 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
+app.use(layerzerolabs.routes(), layerzerolabs.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
