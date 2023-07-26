@@ -4,7 +4,7 @@ const ethers = require("ethers")
 require('dotenv').config();
 const l2Provider = new ethers.providers.JsonRpcProvider("https://opbnb-testnet-rpc.bnbchain.org")
 const l2ProviderCombo = new ethers.providers.JsonRpcProvider("https://test-rpc.combonetwork.io")
-const l1Provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.nodereal.io/v1/f91638d05fe24b88964b5446df16fe56")
+const l1Provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.public.blastapi.io")
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY)
 
 const l1Signer = wallet.connect(l1Provider);
@@ -32,19 +32,23 @@ let crossChainMessenger = new sdk.CrossChainMessenger({
 let crossChainMessengerCombo = new sdk.CrossChainMessenger({
   l1ChainId: 97,
   l2ChainId: 91715,
+  depositConfirmationBlocks: 12,
+  l1BlockTimeSeconds: 3,
   l1SignerOrProvider: l1Signer,
   l2SignerOrProvider: l2ProviderCombo,
+  bedrock: true,
   contracts: {
     l1: {
-      "AddressManager": "0x0000000000000000000000000000000000000000",
-      "StateCommitmentChain": "0x0000000000000000000000000000000000000000",
-      "CanonicalTransactionChain": "0x0000000000000000000000000000000000000000",
-      "BondManager": "0x0000000000000000000000000000000000000000",
-      "L1CrossDomainMessenger": "0x0cf9129cc088296A0401B6003cD7D3380d10dAaE",
-      "L1StandardBridge": "0x261436b25a95449350C1EB11882f46F4140Dbf74",
-      "OptimismPortal": "0x279986e2E26CEd9bf7bcF49282398e74142c3760",
-      "L2OutputOracle": "0x9DD772cC8ccBE71c769C98A8F1De1898BcF9E83b"
-    }
+      AddressManager: "0x0000000000000000000000000000000000000000",
+      L1CrossDomainMessenger: "0x0cf9129cc088296A0401B6003cD7D3380d10dAaE",
+      L1StandardBridge: "0x261436b25a95449350C1EB11882f46F4140Dbf74",
+      StateCommitmentChain: "0x0000000000000000000000000000000000000000",
+      CanonicalTransactionChain: "0x0000000000000000000000000000000000000000",
+      BondManager: "0x0000000000000000000000000000000000000000",
+      OptimismPortal: "0x279986e2E26CEd9bf7bcF49282398e74142c3760",
+      L2OutputOracle: "0x9DD772cC8ccBE71c769C98A8F1De1898BcF9E83b",
+}
+
 
 }
 });
