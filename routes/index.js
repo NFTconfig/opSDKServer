@@ -4,7 +4,7 @@ const ethers = require("ethers")
 require('dotenv').config();
 const l2Provider = new ethers.providers.JsonRpcProvider("https://opbnb-testnet-rpc.bnbchain.org")
 const l2ProviderCombo = new ethers.providers.JsonRpcProvider("https://test-rpc.combonetwork.io")
-const l1Provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.public.blastapi.io")
+const l1Provider = new ethers.providers.JsonRpcProvider("https://bsc-testnet.nodereal.io/v1/0b825810a6d4403585da983bfc0fe0aa")
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY)
 
 const l1Signer = wallet.connect(l1Provider);
@@ -58,10 +58,17 @@ router.post('/crossChainMessenger', async (ctx, next) => {
   let method = body.method;
   let params = body.params;
   try {
-    let res = await crossChainMessenger[method](...params);
-    ctx.body = res;
+    if (method == 'proveMessage' || method == 'finalizeMessage' ){
+      const gasPrice = await l1Provider.getGasPrice();
+      let res = await crossChainMessengerCombo[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
+      ctx.body = res;
+    }else {
+      let res = await crossChainMessengerCombo[method](...params);
+      ctx.body = res;
+    }
+   
   } catch (error) {
-    ctx.body = error;
+    ctx.body = String(error)
   }
 })
 
@@ -79,10 +86,17 @@ router.post('/combo/crossChainMessenger', async (ctx, next) => {
   let body = ctx.request.body;
   let method = body.method;
   let params = body.params;
-  try {
 
-    let res = await crossChainMessengerCombo[method](...params);
-    ctx.body = res;
+  try {
+    if (method == 'proveMessage' || method == 'finalizeMessage' ){
+      const gasPrice = await l1Provider.getGasPrice();
+      let res = await crossChainMessengerCombo[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
+      ctx.body = res;
+    }else {
+      let res = await crossChainMessengerCombo[method](...params);
+      ctx.body = res;
+    }
+   
   } catch (error) {
     ctx.body = String(error)
   }
