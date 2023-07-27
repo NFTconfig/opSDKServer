@@ -62,7 +62,20 @@ router.post('/crossChainMessenger', async (ctx, next) => {
       const gasPrice = await l1Provider.getGasPrice();
       let res = await crossChainMessenger[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
       ctx.body = res;
-    }else {
+     
+    } else if(method == "getMessageStatus"){
+      let opt = {
+        messageIndex :0,
+        fromBlockOrBlockHash:null,
+        toBlockOrBlockHash:null
+      }
+      const endblock = await l1Provider.getBlockNumber();
+      opt.fromBlockOrBlockHash = endblock - 49999;
+      opt.toBlockOrBlockHash = endblock;
+      let res = await crossChainMessenger[method](...params,0,  opt.fromBlockOrBlockHash,  opt.toBlockOrBlockHash );
+      ctx.body = res;
+    } 
+    else {
       let res = await crossChainMessenger[method](...params);
       ctx.body = res;
     }
@@ -92,7 +105,19 @@ router.post('/combo/crossChainMessenger', async (ctx, next) => {
       const gasPrice = await l1Provider.getGasPrice();
       let res = await crossChainMessengerCombo[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
       ctx.body = res;
-    }else {
+    } else if(method == "getMessageStatus"){
+      let opt = {
+        messageIndex :0,
+        fromBlockOrBlockHash:null,
+        toBlockOrBlockHash:null
+      }
+      const endblock = await l1Provider.getBlockNumber();
+      opt.fromBlockOrBlockHash = endblock - 49999;
+      opt.toBlockOrBlockHash = endblock;
+      let res = await crossChainMessengerCombo[method](...params,0,  opt.fromBlockOrBlockHash,  opt.toBlockOrBlockHash );
+      ctx.body = res;
+    }
+    else {
       let res = await crossChainMessengerCombo[method](...params);
       ctx.body = res;
     }
