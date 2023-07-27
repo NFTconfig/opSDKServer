@@ -103,12 +103,8 @@ router.post('/crossChainMessenger', async (ctx, next) => {
       opt.fromBlockOrBlockHash = endblock - 49999;
       opt.toBlockOrBlockHash = endblock;
       let res = await crossChainMessenger[method](...params,0,  opt.fromBlockOrBlockHash,  opt.toBlockOrBlockHash );
-      if(res.hash){
-        await res.wait(1);
-        ctx.body = res;
-      } else{
-        ctx.body = res;
-      } 
+      ctx.body = res;
+      
     } 
     else {
       let res = await crossChainMessenger[method](...params);
@@ -157,12 +153,8 @@ router.post('/combo/crossChainMessenger', async (ctx, next) => {
       opt.fromBlockOrBlockHash = endblock - 49999;
       opt.toBlockOrBlockHash = endblock;
       let res = await crossChainMessenger[method](...params,0,  opt.fromBlockOrBlockHash,  opt.toBlockOrBlockHash );
-      if(res.hash){
-        await res.wait(1);
-        ctx.body = res;
-      } else{
-        ctx.body = res;
-      } 
+      ctx.body = res;
+     
     }
     else {
       let res = await crossChainMessenger[method](...params);
