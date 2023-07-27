@@ -85,7 +85,7 @@ router.post('/crossChainMessenger', async (ctx, next) => {
     let crossChainMessenger = getRandomCrossChainMessenger(opBnbCrossChainMessengers);
     if (method == 'proveMessage' || method == 'finalizeMessage' ){
       const gasPrice = await l1Provider.getGasPrice();
-      let res = await crossChainMessenger[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
+      let res = await crossChainMessenger[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1}});
       ctx.body = res;
      
     } else if(method == "getMessageStatus"){
@@ -129,7 +129,7 @@ router.post('/combo/crossChainMessenger', async (ctx, next) => {
     let crossChainMessenger = getRandomCrossChainMessenger(comboCrossChainMessengers);
     if (method == 'proveMessage' || method == 'finalizeMessage' ){
       const gasPrice = await l1Provider.getGasPrice();
-      let res = await crossChainMessenger[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1.1}});
+      let res = await crossChainMessenger[method](...params,{"overrides":{"gasLimit":3000000,"gasPrice":gasPrice*1}});
       ctx.body = res;
     } else if(method == "getMessageStatus"){
       let opt = {
