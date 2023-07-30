@@ -167,4 +167,29 @@ router.post("/combo/crossChainMessenger", async (ctx, next) => {
   await createHandlerFunc(ctx, comboCrossChainMessengers, l2ProviderCombo);
 });
 
+router.post("/nonceByWalletId", async (ctx, next) => {
+  try {
+    let body = ctx.request.body;
+    let walletId = body.walletId || 0;
+    console.log(opBnbCrossChainMessengers[walletId].l1SignerOrProvider.address)
+    let nonce = await l1Provider.getTransactionCount(opBnbCrossChainMessengers[walletId].l1SignerOrProvider.address);
+    ctx.body = nonce;
+  } catch (error) {
+    ctx.body = String(error);
+  }
+ 
+});
+
+router.post("/combo/nonceByWalletId", async (ctx, next) => {
+  try {
+    let body = ctx.request.body;
+    let walletId = body.walletId || 0;
+    let nonce = await l1Provider.getTransactionCount(comboCrossChainMessengers[walletId].l1SignerOrProvider.address);
+    ctx.body = nonce;
+  } catch (error) {
+    ctx.body = String(error);
+  }
+ 
+});
+
 module.exports = router;
