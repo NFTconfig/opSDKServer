@@ -13,7 +13,7 @@ const l1Provider = new ethers.providers.JsonRpcProvider(
 );
 
 const getComboCrossChainMessengers = () => {
-  let privateKeys = JSON.parse(process.env.PRIVATE_KEY_COMBO);
+  let privateKeys = require('../.env.json').comboPrivateKeys100;
   let crossChainMessengers = [];
   for (let i = 0; i < privateKeys.length; i++) {
     const wallet = new ethers.Wallet(privateKeys[i]);
@@ -46,7 +46,7 @@ const getComboCrossChainMessengers = () => {
 };
 
 const getOpBnbCrossChainMessengers = () => {
-  let privateKeys = JSON.parse(process.env.PRIVATE_KEY_OPBNB);
+  let privateKeys = require('../.env.json').opbnbPrivateKeys100;
   let crossChainMessengers = [];
   for (let i = 0; i < privateKeys.length; i++) {
     const wallet = new ethers.Wallet(privateKeys[i]);
