@@ -109,6 +109,8 @@ const createHandlerFunc = async (ctx, crossChainMessengers, l2Provider) => {
   let body = ctx.request.body;
   let method = body.method;
   let params = body.params;
+  let overrides = body.overrides;
+  if(overrides){params.push({overrides})};
   let walletId = body.walletId || 0;
 
   try {
